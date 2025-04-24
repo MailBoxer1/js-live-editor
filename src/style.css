@@ -1,0 +1,250 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 2.2em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+/* Стиль для ссылки на GitHub */
+.github-link {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: inherit;
+  transition: color 0.3s;
+}
+
+.github-link:hover {
+  color: #646cff;
+}
+
+/* Стили для переключателя автоматического выполнения */
+.auto-execute-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.toggle-label {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Переключатель */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2a623d;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2a623d;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .editor-container {
+    flex-direction: row;
+  }
+}
+
+.editor-panel, .result-panel {
+  flex: 1;
+  border: 1px solid #444;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header {
+  background-color: #333;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-bottom: 1px solid #444;
+}
+
+#code-editor {
+  width: 100%;
+  height: 400px;
+  font-family: monospace;
+  resize: none;
+  background-color: #1a1a1a;
+  color: #eee;
+  border: none;
+  padding: 1rem;
+  box-sizing: border-box;
+  line-height: 1.5;
+  tab-size: 2;
+  font-size: 14px;
+}
+
+#result-output {
+  flex: 1;
+  padding: 1rem;
+  background-color: #1a1a1a;
+  overflow: auto;
+  white-space: pre-wrap;
+  font-family: monospace;
+  min-height: 200px;
+  color: #eee;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.execute-btn {
+  background-color: #2a623d;
+  color: white;
+  margin-top: 0.5rem;
+}
+
+.execute-btn:hover {
+  background-color: #1e4e2e;
+  border-color: #2a623d;
+}
+
+.error {
+  color: #ff6b6b;
+}
+
+.console-output {
+  margin-top: 0.5rem;
+  border-top: 1px solid #444;
+  padding-top: 0.5rem;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+  .panel-header {
+    background-color: #e5e5e5;
+    border-bottom: 1px solid #ddd;
+  }
+  .editor-panel, .result-panel {
+    border: 1px solid #ddd;
+  }
+  #code-editor, #result-output {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  .error {
+    color: #d32f2f;
+  }
+}
