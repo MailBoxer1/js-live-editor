@@ -15,7 +15,7 @@
 
 ```bash
 # Клонирование репозитория
-git clone https://github.com/ваш-профиль/js-live-editor.git
+git clone https://github.com/MailBoxer1/js-live-editor.git
 cd js-live-editor
 
 # Установка зависимостей
