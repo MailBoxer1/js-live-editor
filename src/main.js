@@ -60,12 +60,31 @@ function loadTheme() {
 // Инициализация панели типов данных
 function setupDatatypesPanel() {
   const datatypeItems = document.querySelectorAll('.datatype-item');
+  const methodsDropdownBtn = document.getElementById('methods-dropdown-btn');
+  const methodsDropdownContainer = document.querySelector('.methods-dropdown-container');
+  
+  // Обработчик клика по кнопке выпадающего меню
+  if (methodsDropdownBtn) {
+    methodsDropdownBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      methodsDropdownContainer.classList.toggle('active');
+    });
+    
+    // Клик вне меню закрывает его
+    document.addEventListener('click', (e) => {
+      if (!methodsDropdownContainer.contains(e.target)) {
+        methodsDropdownContainer.classList.remove('active');
+      }
+    });
+  }
   
   // Обработчик клика по названию типа данных
   datatypeItems.forEach(item => {
     const datatypeName = item.querySelector('.datatype-name');
     
-    datatypeName.addEventListener('click', () => {
+    datatypeName.addEventListener('click', (e) => {
+      e.stopPropagation(); // Предотвращаем закрытие меню при клике на элемент
+      
       // Если текущий элемент уже активен, закрываем его
       if (item.classList.contains('active')) {
         item.classList.remove('active');
@@ -87,7 +106,9 @@ function setupDatatypesPanel() {
   const methodItems = document.querySelectorAll('.method-item');
   
   methodItems.forEach(method => {
-    method.addEventListener('click', () => {
+    method.addEventListener('click', (e) => {
+      e.stopPropagation(); // Предотвращаем закрытие меню при клике на метод
+      
       const insertText = method.getAttribute('data-insert');
       
       // Получаем текущую позицию курсора
@@ -114,6 +135,9 @@ function setupDatatypesPanel() {
       
       // Сохраняем изменения
       saveCode();
+      
+      // Закрываем меню после выбора метода
+      methodsDropdownContainer.classList.remove('active');
     });
   });
 }
