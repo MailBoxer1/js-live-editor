@@ -57,6 +57,67 @@ function loadTheme() {
   }
 }
 
+// Инициализация панели типов данных
+function setupDatatypesPanel() {
+  const datatypeItems = document.querySelectorAll('.datatype-item');
+  
+  // Обработчик клика по названию типа данных
+  datatypeItems.forEach(item => {
+    const datatypeName = item.querySelector('.datatype-name');
+    
+    datatypeName.addEventListener('click', () => {
+      // Если текущий элемент уже активен, закрываем его
+      if (item.classList.contains('active')) {
+        item.classList.remove('active');
+      } else {
+        // Закрываем все остальные элементы
+        datatypeItems.forEach(otherItem => {
+          if (otherItem !== item) {
+            otherItem.classList.remove('active');
+          }
+        });
+        
+        // Открываем текущий элемент
+        item.classList.add('active');
+      }
+    });
+  });
+  
+  // Обработчик клика по методу
+  const methodItems = document.querySelectorAll('.method-item');
+  
+  methodItems.forEach(method => {
+    method.addEventListener('click', () => {
+      const insertText = method.getAttribute('data-insert');
+      
+      // Получаем текущую позицию курсора
+      const cursorPos = codeEditor.selectionStart;
+      
+      // Получаем текст до и после позиции курсора
+      const textBefore = codeEditor.value.substring(0, cursorPos);
+      const textAfter = codeEditor.value.substring(cursorPos);
+      
+      // Вставляем метод в позицию курсора
+      codeEditor.value = textBefore + insertText + textAfter;
+      
+      // Устанавливаем курсор после вставленного текста
+      const newCursorPos = cursorPos + insertText.length;
+      codeEditor.setSelectionRange(newCursorPos, newCursorPos);
+      
+      // Фокусируемся на редакторе
+      codeEditor.focus();
+      
+      // Если включено автоматическое выполнение, выполняем код
+      if (autoExecuteEnabled) {
+        executeCode();
+      }
+      
+      // Сохраняем изменения
+      saveCode();
+    });
+  });
+}
+
 // Переопределяем console.log для отображения в нашем результате
 function setupConsoleOverride() {
   const originalConsoleLog = console.log;
@@ -195,6 +256,7 @@ function init() {
   loadCode();
   loadAutoExecuteState();
   loadTheme();
+  setupDatatypesPanel();
   setupEventListeners();
   
   // Выполняем код при загрузке страницы

@@ -44,6 +44,123 @@
         </a>
       </div>
       <div class="editor-container">
+        <div class="datatypes-panel">
+          <div class="panel-header">Типы данных</div>
+          <div class="datatypes-list">
+            <div class="datatype-item">
+              <div class="datatype-name">String</div>
+              <div class="datatype-methods">
+                <div class="method-item" data-insert="string.length">length</div>
+                <div class="method-item" data-insert="string.charAt(index)">charAt()</div>
+                <div class="method-item" data-insert="string.concat(str1, str2, ...)">concat()</div>
+                <div class="method-item" data-insert="string.includes(searchString)">includes()</div>
+                <div class="method-item" data-insert="string.indexOf(searchValue)">indexOf()</div>
+                <div class="method-item" data-insert="string.replace(searchValue, replaceValue)">replace()</div>
+                <div class="method-item" data-insert="string.slice(start, end)">slice()</div>
+                <div class="method-item" data-insert="string.split(separator)">split()</div>
+                <div class="method-item" data-insert="string.toLowerCase()">toLowerCase()</div>
+                <div class="method-item" data-insert="string.toUpperCase()">toUpperCase()</div>
+                <div class="method-item" data-insert="string.trim()">trim()</div>
+              </div>
+            </div>
+            <div class="datatype-item">
+              <div class="datatype-name">Array</div>
+              <div class="datatype-methods">
+                <div class="method-item" data-insert="array.length">length</div>
+                <div class="method-item" data-insert="array.concat(arr1, arr2, ...)">concat()</div>
+                <div class="method-item" data-insert="array.filter(callback)">filter()</div>
+                <div class="method-item" data-insert="array.find(callback)">find()</div>
+                <div class="method-item" data-insert="array.forEach(callback)">forEach()</div>
+                <div class="method-item" data-insert="array.includes(element)">includes()</div>
+                <div class="method-item" data-insert="array.indexOf(element)">indexOf()</div>
+                <div class="method-item" data-insert="array.join(separator)">join()</div>
+                <div class="method-item" data-insert="array.map(callback)">map()</div>
+                <div class="method-item" data-insert="array.pop()">pop()</div>
+                <div class="method-item" data-insert="array.push(element)">push()</div>
+                <div class="method-item" data-insert="array.reduce(callback)">reduce()</div>
+                <div class="method-item" data-insert="array.reverse()">reverse()</div>
+                <div class="method-item" data-insert="array.shift()">shift()</div>
+                <div class="method-item" data-insert="array.slice(start, end)">slice()</div>
+                <div class="method-item" data-insert="array.some(callback)">some()</div>
+                <div class="method-item" data-insert="array.sort()">sort()</div>
+                <div class="method-item" data-insert="array.splice(start, deleteCount, items)">splice()</div>
+                <div class="method-item" data-insert="array.unshift(element)">unshift()</div>
+              </div>
+            </div>
+            <div class="datatype-item">
+              <div class="datatype-name">Object</div>
+              <div class="datatype-methods">
+                <div class="method-item" data-insert="Object.keys(obj)">Object.keys()</div>
+                <div class="method-item" data-insert="Object.values(obj)">Object.values()</div>
+                <div class="method-item" data-insert="Object.entries(obj)">Object.entries()</div>
+                <div class="method-item" data-insert="Object.assign(target, source)">Object.assign()</div>
+                <div class="method-item" data-insert="Object.freeze(obj)">Object.freeze()</div>
+                <div class="method-item" data-insert="Object.hasOwnProperty(prop)">hasOwnProperty()</div>
+                <div class="method-item" data-insert="JSON.stringify(obj)">JSON.stringify()</div>
+                <div class="method-item" data-insert="JSON.parse(string)">JSON.parse()</div>
+              </div>
+            </div>
+            <div class="datatype-item">
+              <div class="datatype-name">Number</div>
+              <div class="datatype-methods">
+                <div class="method-item" data-insert="Number.isInteger(number)">Number.isInteger()</div>
+                <div class="method-item" data-insert="Number.isNaN(value)">Number.isNaN()</div>
+                <div class="method-item" data-insert="number.toFixed(digits)">toFixed()</div>
+                <div class="method-item" data-insert="number.toString()">toString()</div>
+                <div class="method-item" data-insert="parseInt(string, radix)">parseInt()</div>
+                <div class="method-item" data-insert="parseFloat(string)">parseFloat()</div>
+                <div class="method-item" data-insert="Math.round(number)">Math.round()</div>
+                <div class="method-item" data-insert="Math.floor(number)">Math.floor()</div>
+                <div class="method-item" data-insert="Math.ceil(number)">Math.ceil()</div>
+                <div class="method-item" data-insert="Math.abs(number)">Math.abs()</div>
+                <div class="method-item" data-insert="Math.random()">Math.random()</div>
+              </div>
+            </div>
+            <div class="datatype-item">
+              <div class="datatype-name">Date</div>
+              <div class="datatype-methods">
+                <div class="method-item" data-insert="new Date()">new Date()</div>
+                <div class="method-item" data-insert="date.getDate()">getDate()</div>
+                <div class="method-item" data-insert="date.getMonth()">getMonth()</div>
+                <div class="method-item" data-insert="date.getFullYear()">getFullYear()</div>
+                <div class="method-item" data-insert="date.getHours()">getHours()</div>
+                <div class="method-item" data-insert="date.getMinutes()">getMinutes()</div>
+                <div class="method-item" data-insert="date.getSeconds()">getSeconds()</div>
+                <div class="method-item" data-insert="date.toISOString()">toISOString()</div>
+                <div class="method-item" data-insert="date.toLocaleDateString()">toLocaleDateString()</div>
+                <div class="method-item" data-insert="date.toLocaleTimeString()">toLocaleTimeString()</div>
+              </div>
+            </div>
+            <div class="datatype-item">
+              <div class="datatype-name">Promise</div>
+              <div class="datatype-methods">
+                <div class="method-item" data-insert="new Promise((resolve, reject) => {})">new Promise()</div>
+                <div class="method-item" data-insert="promise.then(callback)">then()</div>
+                <div class="method-item" data-insert="promise.catch(callback)">catch()</div>
+                <div class="method-item" data-insert="promise.finally(callback)">finally()</div>
+                <div class="method-item" data-insert="Promise.all(promises)">Promise.all()</div>
+                <div class="method-item" data-insert="Promise.race(promises)">Promise.race()</div>
+                <div class="method-item" data-insert="Promise.resolve(value)">Promise.resolve()</div>
+                <div class="method-item" data-insert="Promise.reject(reason)">Promise.reject()</div>
+                <div class="method-item" data-insert="async function name() {}">async function</div>
+                <div class="method-item" data-insert="await promise">await</div>
+              </div>
+            </div>
+            <div class="datatype-item">
+              <div class="datatype-name">RegExp</div>
+              <div class="datatype-methods">
+                <div class="method-item" data-insert="new RegExp(pattern, flags)">new RegExp()</div>
+                <div class="method-item" data-insert="/pattern/flags">pattern literal</div>
+                <div class="method-item" data-insert="regex.test(string)">test()</div>
+                <div class="method-item" data-insert="regex.exec(string)">exec()</div>
+                <div class="method-item" data-insert="string.match(regex)">string.match()</div>
+                <div class="method-item" data-insert="string.replace(regex, replacement)">string.replace()</div>
+                <div class="method-item" data-insert="string.search(regex)">string.search()</div>
+                <div class="method-item" data-insert="string.split(regex)">string.split()</div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="editor-panel">
           <div class="panel-header">Редактор кода</div>
           <textarea id="code-editor" spellcheck="false">// Напишите здесь ваш JavaScript код

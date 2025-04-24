@@ -417,3 +417,72 @@ button:hover {
     /* Эти настройки не будут применяться, так как мы используем data-theme */
   }
 }
+
+/* Стили для панели с типами данных */
+.datatypes-panel {
+  flex: 0 0 220px;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 546px; /* Соответствует высоте editor-panel */
+}
+
+.datatypes-list {
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--panel-bg);
+  color: var(--panel-text);
+}
+
+.datatype-item {
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.datatype-name {
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.datatype-name:hover {
+  background-color: rgba(100, 108, 255, 0.1);
+}
+
+.datatype-name::after {
+  content: '▼';
+  position: absolute;
+  right: 10px;
+  transition: transform 0.3s;
+}
+
+.datatype-item.active .datatype-name::after {
+  transform: rotate(180deg);
+}
+
+.datatype-methods {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-top: 1px solid var(--panel-border);
+  padding: 5px 0;
+}
+
+.datatype-item.active .datatype-methods {
+  display: block;
+}
+
+.method-item {
+  padding: 6px 20px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.method-item:hover {
+  background-color: var(--accent-color);
+  color: white;
+}
