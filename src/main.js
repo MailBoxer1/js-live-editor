@@ -5,6 +5,7 @@ const codeEditor = document.getElementById('code-editor');
 const executeButton = document.getElementById('execute-btn');
 const resultOutput = document.getElementById('result-output');
 const autoExecuteToggle = document.getElementById('auto-execute-toggle');
+const themeSelector = document.getElementById('theme-selector');
 
 // Состояние автоматического выполнения
 let autoExecuteEnabled = false;
@@ -33,6 +34,26 @@ function loadAutoExecuteState() {
   if (savedState !== null) {
     autoExecuteEnabled = savedState === 'true';
     autoExecuteToggle.checked = autoExecuteEnabled;
+  }
+}
+
+// Функция для сохранения выбранной темы
+function saveTheme(theme) {
+  localStorage.setItem('js-live-editor-theme', theme);
+}
+
+// Функция для загрузки выбранной темы
+function loadTheme() {
+  const savedTheme = localStorage.getItem('js-live-editor-theme');
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    themeSelector.value = savedTheme;
+  } else {
+    // Определяем системную тему по умолчанию
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const defaultTheme = prefersDark ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', defaultTheme);
+    themeSelector.value = defaultTheme;
   }
 }
 
@@ -148,6 +169,13 @@ function setupEventListeners() {
       executeCode(); // Выполняем код сразу после включения
     }
   });
+
+  // Обработчик переключателя тем
+  themeSelector.addEventListener('change', () => {
+    const selectedTheme = themeSelector.value;
+    document.documentElement.setAttribute('data-theme', selectedTheme);
+    saveTheme(selectedTheme);
+  });
 }
 
 // Функция debounce для предотвращения слишком частого выполнения функции
@@ -166,6 +194,7 @@ function init() {
   setupConsoleOverride();
   loadCode();
   loadAutoExecuteState();
+  loadTheme();
   setupEventListeners();
   
   // Выполняем код при загрузке страницы

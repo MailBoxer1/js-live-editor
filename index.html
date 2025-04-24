@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -16,6 +16,26 @@
             <span class="slider round"></span>
           </label>
           <span class="toggle-label">Автоматическое выполнение</span>
+        </div>
+        <div class="theme-container">
+          <span class="theme-label">Тема:</span>
+          <select id="theme-selector">
+            <optgroup label="Темные">
+              <option value="dark">Темная</option>
+              <option value="black">Черная</option>
+            </optgroup>
+            <optgroup label="Светлые">
+              <option value="light">Светлая</option>
+              <option value="light-gray">Светло-серая</option>
+              <option value="white">Белая</option>
+            </optgroup>
+            <optgroup label="Цветные">
+              <option value="blue">Синяя</option>
+              <option value="purple">Фиолетовая</option>
+              <option value="colorful">Красочная</option>
+              <option value="contrast">Контрастная</option>
+            </optgroup>
+          </select>
         </div>
         <a href="https://github.com/MailBoxer1/js-live-editor" target="_blank" class="github-link" id="github-link" title="Посмотреть код на GitHub">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">

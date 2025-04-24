@@ -11,21 +11,212 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Переменные цветов для тем */
+  --bg-color: #242424;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --accent-color: #646cff;
+  --accent-hover-color: #535bf2;
+  --panel-bg: #1a1a1a;
+  --panel-text: #eee;
+  --panel-header-bg: #333;
+  --panel-border: #444;
+  --button-bg: #1a1a1a;
+  --button-text: white;
+  --execute-btn-bg: #2a623d;
+  --execute-btn-hover: #1e4e2e;
+  --error-color: #ff6b6b;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* Темные темы */
+[data-theme="dark"] {
+  --bg-color: #242424;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --accent-color: #646cff;
+  --accent-hover-color: #535bf2;
+  --panel-bg: #1a1a1a;
+  --panel-text: #eee;
+  --panel-header-bg: #333;
+  --panel-border: #444;
+  --button-bg: #1a1a1a;
+  --button-text: white;
+  --execute-btn-bg: #2a623d;
+  --execute-btn-hover: #1e4e2e;
+  --error-color: #ff6b6b;
 }
 
+[data-theme="black"] {
+  --bg-color: #000000;
+  --text-color: rgba(255, 255, 255, 0.9);
+  --accent-color: #8c8cff;
+  --accent-hover-color: #7070ff;
+  --panel-bg: #0a0a0a;
+  --panel-text: #fff;
+  --panel-header-bg: #1a1a1a;
+  --panel-border: #333;
+  --button-bg: #0a0a0a;
+  --button-text: white;
+  --execute-btn-bg: #2a623d;
+  --execute-btn-hover: #1e4e2e;
+  --error-color: #ff6b6b;
+}
+
+/* Светлые темы */
+[data-theme="light"] {
+  --bg-color: #ffffff;
+  --text-color: #213547;
+  --accent-color: #747bff;
+  --accent-hover-color: #646cff;
+  --panel-bg: #f5f5f5;
+  --panel-text: #333;
+  --panel-header-bg: #e5e5e5;
+  --panel-border: #ddd;
+  --button-bg: #f9f9f9;
+  --button-text: #333;
+  --execute-btn-bg: #2d8049;
+  --execute-btn-hover: #236a3a;
+  --error-color: #d32f2f;
+}
+
+[data-theme="light-gray"] {
+  --bg-color: #f0f0f0;
+  --text-color: #333;
+  --accent-color: #646cff;
+  --accent-hover-color: #535bf2;
+  --panel-bg: #e0e0e0;
+  --panel-text: #222;
+  --panel-header-bg: #d0d0d0;
+  --panel-border: #ccc;
+  --button-bg: #e0e0e0;
+  --button-text: #222;
+  --execute-btn-bg: #2d8049;
+  --execute-btn-hover: #236a3a;
+  --error-color: #d32f2f;
+}
+
+[data-theme="white"] {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --accent-color: #4b4bff;
+  --accent-hover-color: #3a3aff;
+  --panel-bg: #ffffff;
+  --panel-text: #000000;
+  --panel-header-bg: #f5f5f5;
+  --panel-border: #e0e0e0;
+  --button-bg: #ffffff;
+  --button-text: #000000;
+  --execute-btn-bg: #2d8049;
+  --execute-btn-hover: #236a3a;
+  --error-color: #d32f2f;
+}
+
+/* Цветные темы */
+[data-theme="blue"] {
+  --bg-color: #1a2139;
+  --text-color: #e6e6ff;
+  --accent-color: #60a5fa;
+  --accent-hover-color: #3b82f6;
+  --panel-bg: #0f172a;
+  --panel-text: #e6e6ff;
+  --panel-header-bg: #1e293b;
+  --panel-border: #334155;
+  --button-bg: #1e293b;
+  --button-text: #e6e6ff;
+  --execute-btn-bg: #2563eb;
+  --execute-btn-hover: #1d4ed8;
+  --error-color: #ef4444;
+}
+
+[data-theme="purple"] {
+  --bg-color: #2e1065;
+  --text-color: #f5f3ff;
+  --accent-color: #a78bfa;
+  --accent-hover-color: #8b5cf6;
+  --panel-bg: #4c1d95;
+  --panel-text: #f5f3ff;
+  --panel-header-bg: #5b21b6;
+  --panel-border: #7c3aed;
+  --button-bg: #5b21b6;
+  --button-text: #f5f3ff;
+  --execute-btn-bg: #8b5cf6;
+  --execute-btn-hover: #7c3aed;
+  --error-color: #ef4444;
+}
+
+[data-theme="colorful"] {
+  --bg-color: #6b21a8;
+  --text-color: #ffffff;
+  --accent-color: #fb7185;
+  --accent-hover-color: #f43f5e;
+  --panel-bg: #3730a3;
+  --panel-text: #ffffff;
+  --panel-header-bg: #6366f1;
+  --panel-border: #4f46e5;
+  --button-bg: #6366f1;
+  --button-text: #ffffff;
+  --execute-btn-bg: #10b981;
+  --execute-btn-hover: #059669;
+  --error-color: #ef4444;
+}
+
+[data-theme="contrast"] {
+  --bg-color: #000000;
+  --text-color: #ffff00;
+  --accent-color: #00ffff;
+  --accent-hover-color: #00cccc;
+  --panel-bg: #000000;
+  --panel-text: #ffff00;
+  --panel-header-bg: #333333;
+  --panel-border: #ffff00;
+  --button-bg: #333333;
+  --button-text: #ffff00;
+  --execute-btn-bg: #00ff00;
+  --execute-btn-hover: #00cc00;
+  --error-color: #ff0000;
+}
+
+/* Стили для переключателя тем */
+.theme-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.theme-label {
+  font-size: 0.9rem;
+  margin-right: 8px;
+}
+
+#theme-selector {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Применение переменных цветов к элементам */
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+a {
+  font-weight: 500;
+  color: var(--accent-color);
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: var(--accent-hover-color);
 }
 
 h1 {
@@ -142,7 +333,7 @@ input:checked + .slider:before {
 
 .editor-panel, .result-panel {
   flex: 1;
-  border: 1px solid #444;
+  border: 1px solid var(--panel-border);
   border-radius: 8px;
   overflow: hidden;
   display: flex;
@@ -150,10 +341,10 @@ input:checked + .slider:before {
 }
 
 .panel-header {
-  background-color: #333;
+  background-color: var(--panel-header-bg);
   padding: 0.5rem 1rem;
   font-weight: bold;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid var(--panel-border);
 }
 
 #code-editor {
@@ -161,8 +352,8 @@ input:checked + .slider:before {
   height: 400px;
   font-family: monospace;
   resize: none;
-  background-color: #1a1a1a;
-  color: #eee;
+  background-color: var(--panel-bg);
+  color: var(--panel-text);
   border: none;
   padding: 1rem;
   box-sizing: border-box;
@@ -174,12 +365,12 @@ input:checked + .slider:before {
 #result-output {
   flex: 1;
   padding: 1rem;
-  background-color: #1a1a1a;
+  background-color: var(--panel-bg);
   overflow: auto;
   white-space: pre-wrap;
   font-family: monospace;
   min-height: 200px;
-  color: #eee;
+  color: var(--panel-text);
 }
 
 button {
@@ -189,31 +380,29 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--button-bg);
+  color: var(--button-text);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background-color 0.25s;
 }
+
 button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  border-color: var(--accent-color);
 }
 
 .execute-btn {
-  background-color: #2a623d;
+  background-color: var(--execute-btn-bg);
   color: white;
   margin-top: 0.5rem;
 }
 
 .execute-btn:hover {
-  background-color: #1e4e2e;
-  border-color: #2a623d;
+  background-color: var(--execute-btn-hover);
+  border-color: var(--execute-btn-bg);
 }
 
 .error {
-  color: #ff6b6b;
+  color: var(--error-color);
 }
 
 .console-output {
@@ -222,29 +411,9 @@ button:focus-visible {
   padding-top: 0.5rem;
 }
 
+/* Удаляем правила для prefers-color-scheme, так как теперь используем собственную систему тем */
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-  .panel-header {
-    background-color: #e5e5e5;
-    border-bottom: 1px solid #ddd;
-  }
-  .editor-panel, .result-panel {
-    border: 1px solid #ddd;
-  }
-  #code-editor, #result-output {
-    background-color: #f5f5f5;
-    color: #333;
-  }
-  .error {
-    color: #d32f2f;
+    /* Эти настройки не будут применяться, так как мы используем data-theme */
   }
 }
