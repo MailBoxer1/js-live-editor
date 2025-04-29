@@ -10,87 +10,735 @@ const themeSelector = document.getElementById('theme-selector');
 // Состояние автоматического выполнения
 let autoExecuteEnabled = false;
 
-// Описания для методов
+// Описания для методов с входными/выходными данными и примерами
 const methodDescriptions = {
   // String
-  'length': 'Возвращает длину строки или массива.',
-  'charAt()': 'Возвращает символ по указанному индексу.',
-  'concat()': 'Объединяет две или более строки.',
-  'includes()': 'Проверяет, содержит ли строка или массив указанный элемент.',
-  'indexOf()': 'Возвращает первый индекс, по которому данный элемент найден.',
-  'replace()': 'Возвращает новую строку с заменой подстроки.',
-  'slice()': 'Извлекает часть строки или массива.',
-  'split()': 'Разбивает строку на массив подстрок.',
-  'toLowerCase()': 'Преобразует строку в нижний регистр.',
-  'toUpperCase()': 'Преобразует строку в верхний регистр.',
-  'trim()': 'Удаляет пробелы с начала и конца строки.',
+  'length': {
+    desc: 'Возвращает длину строки или массива.',
+    input: 'Строка или массив',
+    output: 'Число',
+    examples: [
+      `"hello".length // 5`,
+      `[1,2,3].length // 3`,
+      `" ".length // 1`
+    ]
+  },
+  'charAt()': {
+    desc: 'Возвращает символ по указанному индексу.',
+    input: 'Строка, индекс (число)',
+    output: 'Строка (один символ)',
+    examples: [
+      `"hello".charAt(1) // "e"`,
+      `"abc".charAt(0) // "a"`,
+      `"test".charAt(10) // ""`
+    ]
+  },
+  'concat()': {
+    desc: 'Объединяет две или более строки.',
+    input: 'Строка, строки для объединения',
+    output: 'Новая строка',
+    examples: [
+      `"a".concat("b") // "ab"`,
+      `"foo".concat("bar", "baz") // "foobarbaz"`,
+      `"".concat("test") // "test"`
+    ]
+  },
+  'includes()': {
+    desc: 'Проверяет, содержит ли строка или массив указанный элемент.',
+    input: 'Строка/массив, искомое значение',
+    output: 'true/false',
+    examples: [
+      `"hello".includes("ell") // true`,
+      `[1,2,3].includes(2) // true`,
+      `"abc".includes("z") // false`
+    ]
+  },
+  'indexOf()': {
+    desc: 'Возвращает первый индекс, по которому данный элемент найден.',
+    input: 'Строка/массив, искомое значение',
+    output: 'Число (индекс) или -1',
+    examples: [
+      `"hello".indexOf("l") // 2`,
+      `[1,2,3].indexOf(2) // 1`,
+      `"abc".indexOf("z") // -1`
+    ]
+  },
+  'replace()': {
+    desc: 'Возвращает новую строку с заменой подстроки.',
+    input: 'Строка, подстрока для замены, новая подстрока',
+    output: 'Новая строка',
+    examples: [
+      `"hello".replace("llo", "y") // "hey"`,
+      `("2023-01-01".replace(/-/g, "/")) // "2023/01/01"`,
+      `"xxx".replace("x", "y") // "yxx"`
+    ]
+  },
+  'slice()': {
+    desc: 'Извлекает часть строки или массива.',
+    input: 'Строка/массив, начальный индекс, конечный индекс',
+    output: 'Новая строка или массив',
+    examples: [
+      `"hello".slice(1, 4) // "ell"`,
+      `[1, 2, 3, 4, 5].slice(2, 4) // [3, 4]`,
+      `"abcdef".slice(-3) // "def"`
+    ]
+  },
+  'split()': {
+    desc: 'Разбивает строку на массив подстрок.',
+    input: 'Строка, разделитель',
+    output: 'Массив строк',
+    examples: [
+      `"a,b,c".split(",") // ["a", "b", "c"]`,
+      `"hello".split("") // ["h", "e", "l", "l", "o"]`,
+      `("2023-01-01".split("-")) // ["2023", "01", "01"]`
+    ]
+  },
+  'toLowerCase()': {
+    desc: 'Преобразует строку в нижний регистр.',
+    input: 'Строка',
+    output: 'Строка',
+    examples: [
+      `"HELLO".toLowerCase() // "hello"`,
+      `"HeLLo WoRLD".toLowerCase() // "hello world"`,
+      `"javaSCRIPT".toLowerCase() // "javascript"`
+    ]
+  },
+  'toUpperCase()': {
+    desc: 'Преобразует строку в верхний регистр.',
+    input: 'Строка',
+    output: 'Строка',
+    examples: [
+      `"hello".toUpperCase() // "HELLO"`,
+      `"HeLLo WoRLD".toUpperCase() // "HELLO WORLD"`,
+      `"javascript".toUpperCase() // "JAVASCRIPT"`
+    ]
+  },
+  'trim()': {
+    desc: 'Удаляет пробелы с начала и конца строки.',
+    input: 'Строка',
+    output: 'Строка',
+    examples: [
+      `".trim()" // ""`,
+      `"   hello   ".trim() // "hello"`,
+      `"\nhello\t".trim() // "hello"`
+    ]
+  },
   // Array
-  'filter()': 'Создаёт новый массив с элементами, прошедшими проверку.',
-  'find()': 'Возвращает первый элемент, удовлетворяющий условию.',
-  'forEach()': 'Выполняет функцию для каждого элемента массива.',
-  'join()': 'Объединяет все элементы массива в строку.',
-  'map()': 'Создаёт новый массив с результатом вызова функции для каждого элемента.',
-  'pop()': 'Удаляет последний элемент массива и возвращает его.',
-  'push()': 'Добавляет один или более элементов в конец массива.',
-  'reduce()': 'Применяет функцию к аккумулятору и каждому элементу массива.',
-  'reverse()': 'Меняет порядок элементов массива на обратный.',
-  'shift()': 'Удаляет первый элемент массива и возвращает его.',
-  'some()': 'Проверяет, удовлетворяет ли хотя бы один элемент условию.',
-  'sort()': 'Сортирует элементы массива на месте.',
-  'splice()': 'Изменяет содержимое массива, удаляя или добавляя элементы.',
-  'unshift()': 'Добавляет элементы в начало массива.',
+  'filter()': {
+    desc: 'Создаёт новый массив с элементами, прошедшими проверку.',
+    input: 'Массив, функция-предикат',
+    output: 'Новый массив',
+    examples: [
+      `[1, 2, 3, 4].filter(n => n > 2) // [3, 4]`,
+      `["apple", "banana", "cherry"].filter(fruit => fruit.startsWith("b")) // ["banana"]`,
+      `[1, 2, 3].filter(() => false) // []`
+    ]
+  },
+  'find()': {
+    desc: 'Возвращает первый элемент, удовлетворяющий условию.',
+    input: 'Массив, функция-предикат',
+    output: 'Элемент или undefined',
+    examples: [
+      `[1, 2, 3, 4].find(n => n > 2) // 3`,
+      `["apple", "banana", "cherry"].find(fruit => fruit.startsWith("b")) // "banana"`,
+      `[1, 2, 3].find(() => false) // undefined`
+    ]
+  },
+  'forEach()': {
+    desc: 'Выполняет функцию для каждого элемента массива.',
+    input: 'Массив, функция',
+    output: 'undefined',
+    examples: [
+      `let sum = 0; [1, 2, 3].forEach(n => sum += n); sum // 6`,
+      `["apple", "banana", "cherry"].forEach(fruit => console.log(fruit)); // "apple" "banana" "cherry"`,
+      `[1, 2, 3].forEach(() => console.log("Hi")); // "Hi" (3 раза)`
+    ]
+  },
+  'join()': {
+    desc: 'Объединяет все элементы массива в строку.',
+    input: 'Массив, разделитель',
+    output: 'Строка',
+    examples: [
+      `["a", "b", "c"].join(", ") // "a, b, c"`,
+      `[1, 2, 3].join("") // "123"`,
+      `[].join(", ") // ""`
+    ]
+  },
+  'map()': {
+    desc: 'Создаёт новый массив с результатом вызова функции для каждого элемента.',
+    input: 'Массив, функция',
+    output: 'Новый массив',
+    examples: [
+      `[1, 2, 3].map(n => n * 2) // [2, 4, 6]`,
+      `["apple", "banana", "cherry"].map(fruit => fruit.length) // [5, 6, 6]`,
+      `[1, 2, 3].map(() => 0) // [0, 0, 0]`
+    ]
+  },
+  'pop()': {
+    desc: 'Удаляет последний элемент массива и возвращает его.',
+    input: 'Массив',
+    output: 'Элемент или undefined',
+    examples: [
+      `[1, 2, 3].pop() // 3`,
+      `let a = [1, 2, 3]; a.pop(); a // [1, 2]`,
+      `[].pop() // undefined`
+    ]
+  },
+  'push()': {
+    desc: 'Добавляет один или более элементов в конец массива.',
+    input: 'Массив, элементы для добавления',
+    output: 'Новая длина массива',
+    examples: [
+      `[1, 2, 3].push(4) // 4`,
+      `let a = [1, 2]; a.push(3, 4); a // [1, 2, 3, 4]`,
+      `[1, 2, 3].push() // 3`
+    ]
+  },
+  'reduce()': {
+    desc: 'Применяет функцию к аккумулятору и каждому элементу массива.',
+    input: 'Массив, функция, начальное значение',
+    output: 'Значение, возвращаемое функцией',
+    examples: [
+      `[1, 2, 3].reduce((a, b) => a + b, 0) // 6`,
+      `["apple", "banana", "cherry"].reduce((a, b) => a + b.length, 0) // 17`,
+      `[1, 2, 3].reduce(() => {}, 0) // 0`
+    ]
+  },
+  'reverse()': {
+    desc: 'Меняет порядок элементов массива на обратный.',
+    input: 'Массив',
+    output: 'Массив',
+    examples: [
+      `[1, 2, 3].reverse() // [3, 2, 1]`,
+      `let a = [1, 2, 3]; a.reverse(); a // [3, 2, 1]`,
+      `[].reverse() // []`
+    ]
+  },
+  'shift()': {
+    desc: 'Удаляет первый элемент массива и возвращает его.',
+    input: 'Массив',
+    output: 'Элемент или undefined',
+    examples: [
+      `[1, 2, 3].shift() // 1`,
+      `let a = [1, 2, 3]; a.shift(); a // [2, 3]`,
+      `[].shift() // undefined`
+    ]
+  },
+  'some()': {
+    desc: 'Проверяет, удовлетворяет ли хотя бы один элемент условию.',
+    input: 'Массив, функция-предикат',
+    output: 'true/false',
+    examples: [
+      `[1, 2, 3].some(n => n > 2) // true`,
+      `["apple", "banana", "cherry"].some(fruit => fruit.startsWith("z")) // false`,
+      `[1, 2, 3].some(() => false) // false`
+    ]
+  },
+  'sort()': {
+    desc: 'Сортирует элементы массива на месте.',
+    input: 'Массив, функция сравнения',
+    output: 'Массив',
+    examples: [
+      `[3, 1, 2].sort() // [1, 2, 3]`,
+      `["banana", "apple", "cherry"].sort() // ["apple", "banana", "cherry"]`,
+      `[1, 2, 3].sort(() => 0) // [1, 2, 3]` // стабильная сортировка
+    ]
+  },
+  'splice()': {
+    desc: 'Изменяет содержимое массива, удаляя или добавляя элементы.',
+    input: 'Массив, начальный индекс, количество удаляемых элементов, элементы для добавления',
+    output: 'Массив с удалёнными элементами',
+    examples: [
+      `[1, 2, 3, 4].splice(1, 2) // [2, 3]`,
+      `let a = [1, 2, 3]; a.splice(1, 0, "a"); a // [1, "a", 2, 3]`,
+      `[1, 2, 3].splice(0, 3, 4, 5) // [1, 2, 3]` // возвращает удалённые элементы
+    ]
+  },
+  'unshift()': {
+    desc: 'Добавляет элементы в начало массива.',
+    input: 'Массив, элементы для добавления',
+    output: 'Новая длина массива',
+    examples: [
+      `[1, 2, 3].unshift(0) // 4`,
+      `let a = [1, 2]; a.unshift(0); a // [0, 1, 2]`,
+      `[1, 2, 3].unshift() // 3`
+    ]
+  },
   // Object
-  'Object.keys()': 'Возвращает массив имён свойств объекта.',
-  'Object.values()': 'Возвращает массив значений свойств объекта.',
-  'Object.entries()': 'Возвращает массив пар [ключ, значение] объекта.',
-  'Object.assign()': 'Копирует значения всех перечисляемых свойств из одного или более объектов.',
-  'Object.freeze()': 'Замораживает объект, предотвращая добавление/удаление свойств.',
-  'hasOwnProperty()': 'Проверяет, содержит ли объект указанное свойство.',
-  'JSON.stringify()': 'Преобразует объект в строку JSON.',
-  'JSON.parse()': 'Преобразует строку JSON в объект.',
+  'Object.keys()': {
+    desc: 'Возвращает массив имён свойств объекта.',
+    input: 'Объект',
+    output: 'Массив строк',
+    examples: [
+      `Object.keys({a: 1, b: 2}) // ["a", "b"]`,
+      `Object.keys({}) // []`,
+      `Object.keys({length: 1}) // ["length"]` // свойство length
+    ]
+  },
+  'Object.values()': {
+    desc: 'Возвращает массив значений свойств объекта.',
+    input: 'Объект',
+    output: 'Массив',
+    examples: [
+      `Object.values({a: 1, b: 2}) // [1, 2]`,
+      `Object.values({}) // []`,
+      `Object.values({length: 1}) // [1]` // свойство length
+    ]
+  },
+  'Object.entries()': {
+    desc: 'Возвращает массив пар [ключ, значение] объекта.',
+    input: 'Объект',
+    output: 'Массив массивов',
+    examples: [
+      `Object.entries({a: 1, b: 2}) // [["a", 1], ["b", 2]]`,
+      `Object.entries({}) // []`,
+      `Object.entries({length: 1}) // [["length", 1]]` // свойство length
+    ]
+  },
+  'Object.assign()': {
+    desc: 'Копирует значения всех перечисляемых свойств из одного или более объектов.',
+    input: 'Целевой объект, источник 1, источник 2, ...',
+    output: 'Целевой объект',
+    examples: [
+      `Object.assign({a: 1}, {b: 2}) // {a: 1, b: 2}`,
+      `Object.assign({}, {a: 1}) // {a: 1}`,
+      `const target = {}; Object.assign(target, {a: 1}); target === target // true` // ссылка на тот же объект
+    ]
+  },
+  'Object.freeze()': {
+    desc: 'Замораживает объект, предотвращая добавление/удаление свойств.',
+    input: 'Объект',
+    output: 'Объект',
+    examples: [
+      `const obj = {}; Object.freeze(obj); obj === obj // true`,
+      `const obj = {a: 1}; Object.freeze(obj); obj.a = 2; obj.a // 1`,
+      `const obj = Object.freeze({}); obj === obj // true` // замороженный объект
+    ]
+  },
+  'hasOwnProperty()': {
+    desc: 'Проверяет, содержит ли объект указанное свойство.',
+    input: 'Объект, строка с именем свойства',
+    output: 'true/false',
+    examples: [
+      `({a: 1}).hasOwnProperty("a") // true`,
+      `({}).hasOwnProperty("a") // false`,
+      `Object.create({a: 1}).hasOwnProperty("a") // false` // свойство из прототипа
+    ]
+  },
+  'JSON.stringify()': {
+    desc: 'Преобразует объект в строку JSON.',
+    input: 'Объект',
+    output: 'Строка',
+    examples: [
+      `JSON.stringify({a: 1}) // '{"a":1}'`,
+      `JSON.stringify([1, 2, 3]) // '[1,2,3]'`,
+      `JSON.stringify({a: undefined}) // '{"a":null}'` // undefined становится null
+    ]
+  },
+  'JSON.parse()': {
+    desc: 'Преобразует строку JSON в объект.',
+    input: 'Строка',
+    output: 'Объект',
+    examples: [
+      `JSON.parse('{"a":1}') // {a: 1}`,
+      `JSON.parse('[1,2,3]') // [1, 2, 3]`,
+      `JSON.parse('{"a":null}') // {a: undefined}` // null становится undefined
+    ]
+  },
   // Number
-  'Number.isInteger()': 'Проверяет, является ли значение целым числом.',
-  'Number.isNaN()': 'Проверяет, является ли значение NaN.',
-  'toFixed()': 'Форматирует число с фиксированным количеством знаков после запятой.',
-  'toString()': 'Преобразует число в строку.',
-  'parseInt()': 'Преобразует строку в целое число.',
-  'parseFloat()': 'Преобразует строку в число с плавающей точкой.',
-  'Math.round()': 'Округляет число до ближайшего целого.',
-  'Math.floor()': 'Округляет число вниз до ближайшего целого.',
-  'Math.ceil()': 'Округляет число вверх до ближайшего целого.',
-  'Math.abs()': 'Возвращает абсолютное значение числа.',
-  'Math.random()': 'Возвращает псевдослучайное число от 0 до 1.',
+  'Number.isInteger()': {
+    desc: 'Проверяет, является ли значение целым числом.',
+    input: 'Число',
+    output: 'true/false',
+    examples: [
+      `Number.isInteger(4) // true`,
+      `Number.isInteger(4.0) // true`,
+      `Number.isInteger(4.1) // false`
+    ]
+  },
+  'Number.isNaN()': {
+    desc: 'Проверяет, является ли значение NaN.',
+    input: 'Число',
+    output: 'true/false',
+    examples: [
+      `Number.isNaN(NaN) // true`,
+      `Number.isNaN("hello") // false`,
+      `Number.isNaN(4) // false`
+    ]
+  },
+  'toFixed()': {
+    desc: 'Форматирует число с фиксированным количеством знаков после запятой.',
+    input: 'Число, количество знаков',
+    output: 'Строка',
+    examples: [
+      `Math.PI.toFixed(2) // "3.14"`,
+      `(.1 + .2).toFixed(1) // "0.3"`,
+      `3.456.toFixed(0) // "3"`
+    ]
+  },
+  'toString()': {
+    desc: 'Преобразует число в строку.',
+    input: 'Число, основание (2-36)',
+    output: 'Строка',
+    examples: [
+      ` (123).toString() // "123"`,
+      `(456).toString(16) // "1c8"`,
+      `(255).toString(2) // "11111111"`
+    ]
+  },
+  'parseInt()': {
+    desc: 'Преобразует строку в целое число.',
+    input: 'Строка, основание (2-36)',
+    output: 'Число',
+    examples: [
+      `parseInt("10") // 10`,
+      `parseInt("10", 16) // 16`,
+      `parseInt("10.5") // 10`
+    ]
+  },
+  'parseFloat()': {
+    desc: 'Преобразует строку в число с плавающей точкой.',
+    input: 'Строка',
+    output: 'Число',
+    examples: [
+      `parseFloat("10.5") // 10.5`,
+      `parseFloat("10") // 10`,
+      `parseFloat("abc") // NaN`
+    ]
+  },
+  'Math.round()': {
+    desc: 'Округляет число до ближайшего целого.',
+    input: 'Число',
+    output: 'Число',
+    examples: [
+      `Math.round(3.5) // 4`,
+      `Math.round(3.1415) // 3`,
+      `Math.round(-3.5) // -3`
+    ]
+  },
+  'Math.floor()': {
+    desc: 'Округляет число вниз до ближайшего целого.',
+    input: 'Число',
+    output: 'Число',
+    examples: [
+      `Math.floor(3.9) // 3`,
+      `Math.floor(-3.1) // -4`,
+      `Math.floor(3.0) // 3`
+    ]
+  },
+  'Math.ceil()': {
+    desc: 'Округляет число вверх до ближайшего целого.',
+    input: 'Число',
+    output: 'Число',
+    examples: [
+      `Math.ceil(3.1) // 4`,
+      `Math.ceil(-3.9) // -3`,
+      `Math.ceil(3.0) // 3`
+    ]
+  },
+  'Math.abs()': {
+    desc: 'Возвращает абсолютное значение числа.',
+    input: 'Число',
+    output: 'Число',
+    examples: [
+      `Math.abs(-5) // 5`,
+      `Math.abs(5) // 5`,
+      `Math.abs(0) // 0`
+    ]
+  },
+  'Math.random()': {
+    desc: 'Возвращает псевдослучайное число от 0 до 1.',
+    input: 'Нет',
+    output: 'Число',
+    examples: [
+      `Math.random() // 0.123456789`,
+      `Math.random() // 0.987654321`,
+      `Math.random() // 0.555555555`
+    ]
+  },
   // Date
-  'new Date()': 'Создаёт новый объект даты.',
-  'getDate()': 'Возвращает день месяца.',
-  'getMonth()': 'Возвращает месяц (0-11).',
-  'getFullYear()': 'Возвращает год.',
-  'getHours()': 'Возвращает часы.',
-  'getMinutes()': 'Возвращает минуты.',
-  'getSeconds()': 'Возвращает секунды.',
-  'toISOString()': 'Возвращает строку даты в формате ISO.',
-  'toLocaleDateString()': 'Возвращает строку с датой в локальном формате.',
-  'toLocaleTimeString()': 'Возвращает строку с временем в локальном формате.',
+  'new Date()': {
+    desc: 'Создаёт новый объект даты.',
+    input: 'Нет',
+    output: 'Объект Date',
+    examples: [
+      `new Date() // текущая дата и время`,
+      `new Date("2023-01-01") // Sun Jan 01 2023 00:00:00 GMT+0000 (Coordinated Universal Time)`,
+      `new Date(0) // Thu Jan 01 1970 00:00:00 GMT+0000 (Coordinated Universal Time)`
+    ]
+  },
+  'getDate()': {
+    desc: 'Возвращает день месяца.',
+    input: 'Нет',
+    output: 'Число',
+    examples: [
+      `new Date("2023-01-15").getDate() // 15`,
+      `new Date("2023-02-01").getDate() // 1`,
+      `new Date(0).getDate() // 1`
+    ]
+  },
+  'getMonth()': {
+    desc: 'Возвращает месяц (0-11).',
+    input: 'Нет',
+    output: 'Число',
+    examples: [
+      `new Date("2023-01-15").getMonth() // 0`,
+      `new Date("2023-02-15").getMonth() // 1`,
+      `new Date("2023-12-15").getMonth() // 11`
+    ]
+  },
+  'getFullYear()': {
+    desc: 'Возвращает год.',
+    input: 'Нет',
+    output: 'Число',
+    examples: [
+      `new Date("2023-01-15").getFullYear() // 2023`,
+      `new Date(0).getFullYear() // 1970`,
+      `new Date("2023-12-31").getFullYear() // 2023`
+    ]
+  },
+  'getHours()': {
+    desc: 'Возвращает часы.',
+    input: 'Нет',
+    output: 'Число',
+    examples: [
+      `new Date("2023-01-15T10:20:30").getHours() // 10`,
+      `new Date("2023-01-15T23:20:30").getHours() // 23`,
+      `new Date("2023-01-15T00:20:30").getHours() // 0`
+    ]
+  },
+  'getMinutes()': {
+    desc: 'Возвращает минуты.',
+    input: 'Нет',
+    output: 'Число',
+    examples: [
+      `new Date("2023-01-15T10:20:30").getMinutes() // 20`,
+      `new Date("2023-01-15T10:59:30").getMinutes() // 59`,
+      `new Date("2023-01-15T10:00:30").getMinutes() // 0`
+    ]
+  },
+  'getSeconds()': {
+    desc: 'Возвращает секунды.',
+    input: 'Нет',
+    output: 'Число',
+    examples: [
+      `new Date("2023-01-15T10:20:30").getSeconds() // 30`,
+      `new Date("2023-01-15T10:20:59").getSeconds() // 59`,
+      `new Date("2023-01-15T10:20:00").getSeconds() // 0`
+    ]
+  },
+  'toISOString()': {
+    desc: 'Возвращает строку даты в формате ISO.',
+    input: 'Нет',
+    output: 'Строка',
+    examples: [
+      `new Date("2023-01-15").toISOString() // "2023-01-15T00:00:00.000Z"`,
+      `new Date(0).toISOString() // "1970-01-01T00:00:00.000Z"`,
+      `new Date("2023-12-31").toISOString() // "2023-12-31T00:00:00.000Z"`
+    ]
+  },
+  'toLocaleDateString()': {
+    desc: 'Возвращает строку с датой в локальном формате.',
+    input: 'Нет',
+    output: 'Строка',
+    examples: [
+      `new Date("2023-01-15").toLocaleDateString() // "1/15/2023"`,
+      `new Date("2023-12-31").toLocaleDateString() // "12/31/2023"`,
+      `new Date(0).toLocaleDateString() // "1/1/1970"`
+    ]
+  },
+  'toLocaleTimeString()': {
+    desc: 'Возвращает строку с временем в локальном формате.',
+    input: 'Нет',
+    output: 'Строка',
+    examples: [
+      `new Date("2023-01-15T10:20:30").toLocaleTimeString() // "10:20:30 AM"`,
+      `new Date("2023-01-15T22:20:30").toLocaleTimeString() // "10:20:30 PM"`,
+      `new Date(0).toLocaleTimeString() // "12:00:00 AM"`
+    ]
+  },
   // Promise
-  'new Promise()': 'Создаёт новый промис.',
-  'then()': 'Добавляет обработчик успешного выполнения промиса.',
-  'catch()': 'Добавляет обработчик ошибки промиса.',
-  'finally()': 'Добавляет обработчик, выполняющийся после завершения промиса.',
-  'Promise.all()': 'Ожидает выполнения всех промисов.',
-  'Promise.race()': 'Ожидает выполнения первого из промисов.',
-  'Promise.resolve()': 'Возвращает успешно выполненный промис.',
-  'Promise.reject()': 'Возвращает отклонённый промис.',
-  'async function': 'Объявляет асинхронную функцию.',
-  'await': 'Ожидает завершения промиса.',
+  'new Promise()': {
+    desc: 'Создаёт новый промис.',
+    input: 'Функция с параметрами resolve и reject',
+    output: 'Промис',
+    examples: [
+      `new Promise((resolve, reject) => { /*...*/ })`,
+      `new Promise((resolve) => setTimeout(resolve, 1000))`,
+      `new Promise((_, reject) => reject("Ошибка"))`
+    ]
+  },
+  'then()': {
+    desc: 'Добавляет обработчик успешного выполнения промиса.',
+    input: 'Функция',
+    output: 'Промис',
+    examples: [
+      `Promise.resolve(1).then(n => n + 1)`,
+      `new Promise(resolve => resolve(1)).then(n => n + 1)`,
+      `Promise.reject(1).then(n => n + 1, err => err + 1)`
+    ]
+  },
+  'catch()': {
+    desc: 'Добавляет обработчик ошибки промиса.',
+    input: 'Функция',
+    output: 'Промис',
+    examples: [
+      `Promise.reject("Ошибка").catch(err => console.log(err))`,
+      `new Promise((_, reject) => reject("Ошибка")).catch(err => console.log(err))`,
+      `Promise.resolve(1).catch(err => console.log(err))`
+    ]
+  },
+  'finally()': {
+    desc: 'Добавляет обработчик, выполняющийся после завершения промиса.',
+    input: 'Функция',
+    output: 'Промис',
+    examples: [
+      `Promise.resolve(1).finally(() => console.log("Завершено"))`,
+      `new Promise((resolve) => { setTimeout(resolve, 1000) }).finally(() => console.log("Завершено"))`,
+      `Promise.reject(1).finally(() => console.log("Завершено"))`
+    ]
+  },
+  'Promise.all()': {
+    desc: 'Ожидает выполнения всех промисов.',
+    input: 'Массив промисов',
+    output: 'Промис',
+    examples: [
+      `Promise.all([Promise.resolve(1), Promise.resolve(2)]).then(console.log)`,
+      `Promise.all([Promise.resolve(1), new Promise((resolve) => setTimeout(resolve, 1000))]).then(console.log)`,
+      `Promise.all([Promise.resolve(1), Promise.reject(2)]).catch(console.log)`
+    ]
+  },
+  'Promise.race()': {
+    desc: 'Ожидает выполнения первого из промисов.',
+    input: 'Массив промисов',
+    output: 'Промис',
+    examples: [
+      `Promise.race([new Promise((resolve) => setTimeout(resolve, 1000)), Promise.resolve(1)]).then(console.log)`,
+      `Promise.race([Promise.resolve(1), new Promise((_, reject) => setTimeout(reject, 1000))]).catch(console.log)`,
+      `Promise.race([]).catch(console.log)`
+    ]
+  },
+  'Promise.resolve()': {
+    desc: 'Возвращает успешно выполненный промис.',
+    input: 'Значение',
+    output: 'Промис',
+    examples: [
+      `Promise.resolve(1).then(n => n + 1)`,
+      `Promise.resolve(new Promise(resolve => resolve(1))).then(n => n + 1)`,
+      `Promise.resolve().then(() => console.log("Успех"))`
+    ]
+  },
+  'Promise.reject()': {
+    desc: 'Возвращает отклонённый промис.',
+    input: 'Причина отклонения',
+    output: 'Промис',
+    examples: [
+      `Promise.reject("Ошибка").catch(err => console.log(err))`,
+      `Promise.reject(new Error("Ошибка")).catch(err => console.log(err.message))`,
+      `Promise.reject().catch(() => console.log("Неудача"))`
+    ]
+  },
+  'async function': {
+    desc: 'Объявляет асинхронную функцию.',
+    input: 'Функция',
+    output: 'Функция',
+    examples: [
+      `async function f() { return 1 }`,
+      `const f = async () => 1`,
+      `async function f() { throw "Ошибка" }`
+    ]
+  },
+  'await': {
+    desc: 'Ожидает завершения промиса.',
+    input: 'Промис',
+    output: 'Значение',
+    examples: [
+      `async function f() { const result = await Promise.resolve(1); console.log(result) }`,
+      `async function f() { try { await Promise.reject("Ошибка") } catch (e) { console.log(e) } }`,
+      `const f = async () => await Promise.resolve(1)`
+    ]
+  },
   // RegExp
-  'new RegExp()': 'Создаёт новый регулярный объект.',
-  'pattern literal': 'Синтаксис литерала регулярного выражения.',
-  'test()': 'Проверяет соответствие строки регулярному выражению.',
-  'exec()': 'Выполняет поиск совпадения в строке.',
-  'string.match()': 'Ищет совпадения строки с регулярным выражением.',
-  'string.replace()': 'Заменяет совпадения в строке по регулярному выражению.',
-  'string.search()': 'Ищет совпадение регулярного выражения в строке.',
-  'string.split()': 'Разбивает строку по регулярному выражению.'
+  'new RegExp()': {
+    desc: 'Создаёт новый регулярный объект.',
+    input: 'Строка с шаблоном, флаги',
+    output: 'Объект RegExp',
+    examples: [
+      `new RegExp("\\d+")`,
+      `new RegExp("\\d+", "g")`,
+      `new RegExp(/\\d+/)`
+    ]
+  },
+  'pattern literal': {
+    desc: 'Синтаксис литерала регулярного выражения.',
+    input: 'Строка с шаблоном',
+    output: 'Объект RegExp',
+    examples: [
+      `/\\d+/`,
+      `/\\d+/g`,
+      `/\\d+/i`
+    ]
+  },
+  'test()': {
+    desc: 'Проверяет соответствие строки регулярному выражению.',
+    input: 'Строка',
+    output: 'true/false',
+    examples: [
+      `/\\d+/.test("123") // true`,
+      `/\\d+/.test("abc") // false`,
+      `/\\d+/.test("abc123") // true`
+    ]
+  },
+  'exec()': {
+    desc: 'Выполняет поиск совпадения в строке.',
+    input: 'Строка',
+    output: 'Массив с найденными совпадениями или null',
+    examples: [
+      `/\\d+/.exec("123") // ["123"]`,
+      `/\\d+/.exec("abc") // null`,
+      `/\\d+/.exec("abc123") // ["123"]`
+    ]
+  },
+  'string.match()': {
+    desc: 'Ищет совпадения строки с регулярным выражением.',
+    input: 'Регулярное выражение',
+    output: 'Массив с найденными совпадениями или null',
+    examples: [
+      `"abc123".match(/\\d+/) // ["123"]`,
+      `"abc".match(/\\d+/) // null`,
+      `"123abc456".match(/\\d+/g) // ["123", "456"]`
+    ]
+  },
+  'string.replace()': {
+    desc: 'Заменяет совпадения в строке по регулярному выражению.',
+    input: 'Регулярное выражение, замена',
+    output: 'Новая строка',
+    examples: [
+      `"abc123".replace(/\\d+/, "#") // "abc#"`,
+      `"abc123abc".replace(/\\d+/, "#") // "abc#abc"`,
+      `"abc123abc".replace(/\\d+/g, "#") // "abc##abc"`
+    ]
+  },
+  'string.search()': {
+    desc: 'Ищет совпадение регулярного выражения в строке.',
+    input: 'Регулярное выражение',
+    output: 'Индекс совпадения или -1',
+    examples: [
+      `"abc123".search(/\\d+/) // 3`,
+      `"abc".search(/\\d+/) // -1`,
+      `"123abc".search(/\\d+/) // 0`
+    ]
+  },
+  'string.split()': {
+    desc: 'Разбивает строку по регулярному выражению.',
+    input: 'Регулярное выражение',
+    output: 'Массив строк',
+    examples: [
+      `"a,b,c".split(/,/) // ["a", "b", "c"]`,
+      `"hello".split(/l/) // ["he", "lo"]`,
+      `"2023-01-01".split(/-/) // ["2023", "01", "01"]`
+    ]
+  }
 };
 
 // Функция для сохранения кода в localStorage
@@ -187,70 +835,35 @@ function setupDatatypesPanel() {
   
   // Обработчик клика по методу
   const methodItems = document.querySelectorAll('.method-item');
-
-  // Для хранения текущей подсказки
   let currentTooltip = null;
+  let tooltipTimeout = null;
 
   methodItems.forEach(method => {
-    method.addEventListener('click', (e) => {
-      e.stopPropagation(); // Предотвращаем закрытие меню при клике на метод
-      
-      const insertText = method.getAttribute('data-insert');
-      
-      // Получаем текущую позицию курсора
-      const cursorPos = codeEditor.selectionStart;
-      
-      // Получаем текст до и после позиции курсора
-      const textBefore = codeEditor.value.substring(0, cursorPos);
-      const textAfter = codeEditor.value.substring(cursorPos);
-      
-      // Вставляем метод в позицию курсора
-      codeEditor.value = textBefore + insertText + textAfter;
-      
-      // Устанавливаем курсор после вставленного текста
-      const newCursorPos = cursorPos + insertText.length;
-      codeEditor.setSelectionRange(newCursorPos, newCursorPos);
-      
-      // Фокусируемся на редакторе
-      codeEditor.focus();
-      
-      // Если включено автоматическое выполнение, выполняем код
-      if (autoExecuteEnabled) {
-        executeCode();
-      }
-      
-      // Сохраняем изменения
-      saveCode();
-      
-      // Закрываем меню после выбора метода
-      methodsDropdownContainer.classList.remove('active');
-
-      // Всплывающая подсказка
+    method.addEventListener('mouseenter', (e) => {
+      clearTimeout(tooltipTimeout);
       if (currentTooltip) {
         currentTooltip.remove();
         currentTooltip = null;
       }
       const methodName = method.textContent.trim();
-      const description = methodDescriptions[methodName] || 'Описание не найдено.';
+      const info = methodDescriptions[methodName];
+      if (!info) return;
       const tooltip = document.createElement('div');
       tooltip.className = 'method-tooltip';
-      tooltip.textContent = description;
+      tooltip.innerHTML = `<b>${methodName}</b><br><span>${info.desc}</span><br><br><b>Входные данные:</b> ${info.input}<br><b>Выходные данные:</b> ${info.output}<br><b>Примеры:</b><br><code>${info.examples.join('</code><br><code>')}</code>`;
       document.body.appendChild(tooltip);
-      // Позиционирование
       const rect = method.getBoundingClientRect();
       tooltip.style.left = rect.left + window.scrollX + 'px';
       tooltip.style.top = (rect.bottom + window.scrollY + 4) + 'px';
       currentTooltip = tooltip;
-      // Закрытие по клику вне
-      setTimeout(() => {
-        document.addEventListener('click', hideTooltip, { once: true });
-      }, 0);
-      function hideTooltip(ev) {
-        if (tooltip && !tooltip.contains(ev.target)) {
-          tooltip.remove();
+    });
+    method.addEventListener('mouseleave', () => {
+      tooltipTimeout = setTimeout(() => {
+        if (currentTooltip) {
+          currentTooltip.remove();
           currentTooltip = null;
         }
-      }
+      }, 100);
     });
   });
 }
