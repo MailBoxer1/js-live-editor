@@ -14,6 +14,7 @@
             <button id="methods-dropdown-btn" class="methods-dropdown-btn">Типы данных и методы</button>
             <div class="datatypes-panel" id="datatypes-panel">
               <div class="panel-header">Типы данных</div>
+          <input type="text" id="method-search-input" placeholder="Поиск методов..." class="method-search-input">
               <div class="datatypes-list">
                 <div class="datatype-item">
                   <div class="datatype-name">String</div>
@@ -196,7 +197,9 @@ console.log(sayHello('Мир'));
 console.log(doubled);
 console.log(person.greet());</textarea>
           <button id="execute-btn" class="execute-btn">Выполнить код (Ctrl+Enter)</button>
+        <button id="clear-btn" class="clear-btn">Очистить</button>
         </div>
+        <div id="resizer" class="resizer"></div>
         <div class="result-panel">
           <div class="panel-header">Результат выполнения</div>
           <div id="result-output"></div>

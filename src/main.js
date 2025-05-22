@@ -3,9 +3,18 @@ import './style.css'
 // Получаем элементы DOM
 const codeEditor = document.getElementById('code-editor');
 const executeButton = document.getElementById('execute-btn');
+const clearButton = document.getElementById('clear-btn'); // Added clear button
 const resultOutput = document.getElementById('result-output');
 const autoExecuteToggle = document.getElementById('auto-execute-toggle');
 const themeSelector = document.getElementById('theme-selector');
+
+// Elements for resizable panels
+const editorPanel = document.querySelector('.editor-panel');
+const resultPanel = document.querySelector('.result-panel');
+const resizer = document.getElementById('resizer');
+
+// Element for method search
+const methodSearchInput = document.getElementById('method-search-input');
 
 // Состояние автоматического выполнения
 let autoExecuteEnabled = false;
@@ -918,7 +927,11 @@ function setupConsoleOverride() {
 // Функция для добавления вывода в панель результатов
 function appendToResult(type, content) {
   const outputLine = document.createElement('div');
-  outputLine.className = `console-line console-${type}`;
+  if (type === 'error') {
+    outputLine.className = 'console-line console-error-enhanced';
+  } else {
+    outputLine.className = `console-line console-${type}`;
+  }
   outputLine.textContent = content;
   resultOutput.appendChild(outputLine);
 }
@@ -987,6 +1000,82 @@ function setupEventListeners() {
     document.documentElement.setAttribute('data-theme', selectedTheme);
     saveTheme(selectedTheme);
   });
+
+  // Event listener for the clear button
+  clearButton.addEventListener('click', () => {
+    codeEditor.value = ''; // Clear the code editor
+    saveCode(); // Save the cleared state
+    resultOutput.innerHTML = ''; // Clear the result output
+  });
+
+  // Event listener for method search input
+  if (methodSearchInput) {
+    methodSearchInput.addEventListener('input', () => {
+      const searchTerm = methodSearchInput.value.toLowerCase().trim();
+      const datatypeItems = document.querySelectorAll('.datatypes-list .datatype-item');
+
+      datatypeItems.forEach(item => {
+        const datatypeNameElement = item.querySelector('.datatype-name');
+        if (!datatypeNameElement) return; // Skip if structure is unexpected
+
+        const datatypeName = datatypeNameElement.textContent.toLowerCase();
+        const methodItems = item.querySelectorAll('.datatype-methods .method-item');
+        let datatypeItselfMatchesSearch = false; 
+
+        // Check if the datatype name matches
+        if (datatypeName.includes(searchTerm)) {
+          datatypeItselfMatchesSearch = true;
+        }
+
+        let visibleMethodsCount = 0;
+        methodItems.forEach(method => {
+          const methodName = method.textContent.toLowerCase();
+          // Get original case name for lookup in methodDescriptions
+          const originalMethodName = method.textContent.trim(); 
+          const methodInfo = methodDescriptions[originalMethodName];
+          let methodMatchesSearch = false;
+
+          if (methodName.includes(searchTerm)) {
+            methodMatchesSearch = true;
+          }
+          
+          if (methodInfo && methodInfo.desc && methodInfo.desc.toLowerCase().includes(searchTerm)) {
+            methodMatchesSearch = true;
+          }
+          // Optional: search in examples
+          // if (methodInfo && methodInfo.examples) {
+          //   methodInfo.examples.forEach(ex => {
+          //     if (ex.toLowerCase().includes(searchTerm)) methodMatchesSearch = true;
+          //   });
+          // }
+
+          if (methodMatchesSearch) {
+            method.style.display = ''; // Show method
+            visibleMethodsCount++;
+          } else {
+            method.style.display = 'none'; // Hide method
+          }
+        });
+
+        // Determine if the datatype group should be visible
+        if (datatypeItselfMatchesSearch || visibleMethodsCount > 0) {
+          item.style.display = ''; // Show datatype group
+          // If the datatype name itself matched, but no methods did (e.g. searching for "string"
+          // and all string methods are hidden by a more specific term), ensure methods are shown.
+          // This part is tricky: if datatype name matches, should all its methods be visible
+          // *regardless* of method-specific search? The current logic correctly filters methods
+          // individually. If datatype name matches, the group is visible, and then methods are filtered.
+          // If the requirement is "if datatype name matches, show ALL its methods", then the logic
+          // for method.style.display would need adjustment here.
+          // The current subtask implies methods are filtered individually.
+        } else {
+          item.style.display = 'none'; // Hide datatype group
+        }
+      });
+    });
+  } else {
+    console.error("Method search input not found.");
+  }
 }
 
 // Функция debounce для предотвращения слишком частого выполнения функции
@@ -1008,9 +1097,86 @@ function init() {
   loadTheme();
   setupDatatypesPanel();
   setupEventListeners();
+  initResize(); // Initialize the resizer functionality
   
   // Выполняем код при загрузке страницы
   executeCode();
+}
+
+// Function to initialize resizing functionality
+function initResize() {
+  let isResizing = false;
+  let startX, startEditorWidth, startResultWidth;
+
+  if (!resizer || !editorPanel || !resultPanel) {
+    console.error("Resizer or panels not found for initResize. Ensure editor-panel, result-panel classes and resizer ID are correct.");
+    return;
+  }
+  
+  const container = editorPanel.parentElement; // Should be editor-container
+
+  resizer.addEventListener('mousedown', (e) => {
+    e.preventDefault(); // Prevent text selection
+    isResizing = true;
+    startX = e.clientX;
+    startEditorWidth = editorPanel.offsetWidth;
+    startResultWidth = resultPanel.offsetWidth;
+
+    // Apply a class to the body to indicate resizing (optional, for global cursor changes)
+    document.body.style.cursor = 'col-resize'; 
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  });
+
+  function handleMouseMove(e) {
+    if (!isResizing) return;
+    const deltaX = e.clientX - startX;
+    
+    let newEditorWidth = startEditorWidth + deltaX;
+    let newResultWidth = startResultWidth - deltaX;
+
+    const minWidth = 200; // Minimum width for a panel in pixels (synced with CSS)
+    
+    // Ensure the container's and resizer's widths are correctly accounted for
+    const resizerWidth = resizer.offsetWidth;
+    const containerWidth = container.offsetWidth;
+
+    if (newEditorWidth < minWidth) {
+      newEditorWidth = minWidth;
+      newResultWidth = containerWidth - newEditorWidth - resizerWidth;
+    }
+    
+    if (newResultWidth < minWidth) {
+      newResultWidth = minWidth;
+      newEditorWidth = containerWidth - newResultWidth - resizerWidth;
+    }
+
+    // Check if the sum of new widths exceeds container width (can happen due to minWidth adjustments)
+    if (newEditorWidth + newResultWidth + resizerWidth > containerWidth) {
+        // Prioritize editor panel if it was being expanded, else result panel
+        if (deltaX > 0) { // Editor was being expanded
+             newResultWidth = containerWidth - newEditorWidth - resizerWidth;
+        } else { // Result panel was being expanded (or editor shrunk)
+             newEditorWidth = containerWidth - newResultWidth - resizerWidth;
+        }
+    }
+    
+    // Final check to ensure panels don't become smaller than minWidth after combined adjustments
+    if (newEditorWidth < minWidth) newEditorWidth = minWidth;
+    if (newResultWidth < minWidth) newResultWidth = minWidth;
+
+
+    editorPanel.style.flex = `0 0 ${newEditorWidth}px`;
+    resultPanel.style.flex = `0 0 ${newResultWidth}px`;
+  }
+
+  function handleMouseUp() {
+    isResizing = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+    document.body.style.cursor = ''; // Reset body cursor
+  }
 }
 
 // Запускаем инициализацию после загрузки DOM

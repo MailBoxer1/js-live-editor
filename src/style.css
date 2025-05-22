@@ -362,19 +362,44 @@ input:checked + .slider:before {
 .editor-container {
   display: flex;
   flex-direction: row;
-  gap: 1.5rem;
+  /* gap: 1.5rem; */ /* Gap is removed as resizer will handle spacing */
   height: calc(100vh - 150px); /* Увеличиваем высоту до почти полного экрана */
   min-height: 600px; /* Минимальная высота */
 }
 
-.editor-panel, .result-panel {
-  flex: 1;
+.editor-panel {
+  flex: 1 1 50%; /* Initial basis 50%, can grow and shrink */
   border: 1px solid var(--panel-border);
   border-radius: 8px;
-  overflow: hidden;
+  overflow: auto; /* Changed from hidden to auto */
   display: flex;
   flex-direction: column;
   height: 100%; /* Заполняем всю доступную высоту */
+  min-width: 200px; /* Example min-width */
+}
+
+.result-panel {
+  flex: 1 1 50%; /* Initial basis 50%, can grow and shrink */
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  overflow: auto; /* Changed from hidden to auto */
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Заполняем всю доступную высоту */
+  min-width: 200px; /* Example min-width */
+}
+
+.resizer {
+  background-color: var(--panel-border); /* Consistent with panel borders */
+  width: 5px;
+  cursor: col-resize;
+  flex-shrink: 0;
+  /* Add margin if gap was removed and spacing is desired, or adjust panel margins */
+  margin: 0 7px; /* Roughly half of the original 1.5rem gap */
+}
+
+.resizer:hover {
+  background-color: var(--accent-color); /* Use accent color for hover */
 }
 
 .panel-header {
@@ -445,8 +470,39 @@ button:hover {
   border-color: var(--execute-btn-bg);
 }
 
+.clear-btn {
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 0.6em 1.2em; /* Match execute-btn padding */
+  font-size: 1em; /* Match execute-btn font-size */
+  font-weight: 500; /* Match execute-btn font-weight */
+  font-family: inherit; /* Match execute-btn font-family */
+  border-radius: 8px; /* Match execute-btn border-radius */
+  cursor: pointer;
+  margin-left: 10px;
+  transition: border-color 0.25s, background-color 0.25s; /* Match execute-btn transition */
+}
+
+.clear-btn:hover {
+  background-color: #777;
+  border-color: var(--accent-color); /* Match execute-btn hover border-color */
+}
+
 .error {
   color: var(--error-color);
+}
+
+.console-line.console-error-enhanced {
+  background-color: #442222; /* A darker red background */
+  color: #ffcccc; /* Lighter red text for contrast */
+  font-weight: bold;
+  padding: 8px;
+  border-left: 5px solid #ff5555; /* A distinct left border */
+  margin-top: 4px;
+  margin-bottom: 4px;
+  white-space: pre-wrap; /* Ensure formatting is preserved */
+  word-break: break-all; /* Break long error messages */
 }
 
 .console-output {
@@ -533,6 +589,21 @@ button:hover {
 .methods-dropdown-container:hover .datatypes-panel,
 .methods-dropdown-container.active .datatypes-panel {
   display: block;
+}
+
+.method-search-input {
+  width: calc(100% - 20px); /* Adjust width as needed, considering padding */
+  padding: 8px 10px;
+  margin: 10px; /* Or adjust to fit nicely */
+  border: 1px solid var(--panel-border); /* Theme-dependent border */
+  border-radius: 4px;
+  background-color: var(--panel-bg); /* Theme-dependent background */
+  color: var(--panel-text); /* Theme-dependent text color */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.method-search-input::placeholder {
+  color: #888; /* Consider making this theme-dependent if needed */
 }
 
 .datatypes-list {
